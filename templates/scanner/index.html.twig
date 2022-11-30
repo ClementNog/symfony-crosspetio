@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ScannerController!{% endblock %}
+
+{% block body %}
+<body>
+    <script src="{{ asset("/js/html5-qrcode.min.js") }}"></script>
+    <style>
+        .result {
+            background-color: green;
+            color: #fff;
+            padding: 20px;
+        }
+
+        .row {
+            display: flex;
+        }
+    </style>
+    <div class="row">
+        <div class="col">
+            <div style="width:500px;" id="reader"></div>
+        </div>
+        <div class="col" style="padding:30px;">
+            <h4>SCAN RESULT</h4>
+            <div id="result">Result Here</div>
+        </div>
+    </div>
+    <div id="wrapper">
+        <div id="chrono">00:00:00</div>
+        <div id="buttons">
+            <button id="reset" class="button">Reset</button>
+            <button id="stop" class="button">Arrêter</button>
+            <button id="start" class="button">Démarrer</button>
+        </div>
+    </div>
+    <script type="text/javascript" src="{{ asset("/js/timer.js")}}"></script>
+    <script type="text/javascript">
+        function onScanSuccess(qrCodeMessage) {
+            document.get
+            document.getElementById('result').innerHTML = '<span class="result">' + qrCodeMessage + '</span>';
+            let sender = new XMLHttpRequest();
+            sender.open('GET', 'http://172.16.126.6:8000/?qrCodeMessage=' + qrCodeMessage);
+            sender.send();
+            alert(qrCodeMessage);
+        }
+
+        function onScanError(errorMessage) {
+            //handle scan error
+        }
+        var html5QrcodeScanner = new Html5QrcodeScanner(
+            "reader", {
+                fps: 10,
+                qrbox: 250
+            }); 
+        html5QrcodeScanner.render(onScanSuccess, onScanError);        
+    </script>
+</body>
+{% endblock %}

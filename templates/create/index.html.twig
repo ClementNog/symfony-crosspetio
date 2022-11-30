@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Création d'un CODEBarre pour l'élève{% endblock %}
+
+{% block body %}
+<form action="qrcode.php" method="post">
+    <label for="gender-select">Choisir le sexe :</label>
+    <select name="gender" id="gender-select">
+        <option value="F">F</option>
+        <option value="H">H</option>
+    </select>
+    <div>
+        <label for="name">Id :</label>
+        <input type="text" name="id">
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+{% endblock %}
