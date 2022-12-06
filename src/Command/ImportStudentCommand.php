@@ -88,6 +88,7 @@ class ImportStudentCommand extends Command
         }
 
         */
+        print("derniere etape");
         return Command::SUCCESS;
     }
 }
