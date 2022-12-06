@@ -21,7 +21,7 @@ try{
         error_log("L'élève avec le dossard n° " . $identifiant . " vient d'arriver à " .$end);        
         // Enregistrer l'heure d'arrivée de cet élève
         //$requete = "INSERT INTO eleve (identifiant) VALUES ('$identifiant');";
-        $requete = "INSERT INTO `eleve`( `identifiant`, `end`, start) VALUES(:identifiant, :end, :start)";
+        $requete = "INSERT INTO `student`( `id`, `end`, start) VALUES(:identifiant, :end, :start)";
         $stmt = $connexion->prepare($requete);
         $stmt->bindParam(':identifiant', $identifiant);
         $stmt->bindParam(':start', $start);
@@ -33,7 +33,7 @@ try{
         echo("La course a démarrée à " . $start . " !");
         //error_log("La course a démarrée à " . $start . " !");
         // Enregistrer l'heure de départ de la course
-        $requete = "INSERT INTO `depart`( `start`) VALUES(:start)";
+        $requete = "INSERT INTO `race`( `start`) VALUES(:start)";
         $stmt = $connexion->prepare($requete);
         $stmt->bindParam(':start', $start);
         error_log($requete);
