@@ -5,6 +5,8 @@
 {% block body %}
     <h1>Create new Race</h1>
 
+    {{ message }}
+    
     {{ include('race/_form.html.twig') }}
 
     <a href="{{ path('app_race_index') }}">back to list</a>

@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Grade{% endblock %}
+
+{% block body %}
+    <h1>Grade</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ grade.id }}</td>
+            </tr>
+            <tr>
+                <th>Shortname</th>
+                <td>{{ grade.shortname }}</td>
+            </tr>
+            <tr>
+                <th>Level</th>
+                <td>{{ grade.level }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_grade_index') }}">back to list</a>
+
+    <a href="{{ path('app_grade_edit', {'id': grade.id}) }}">edit</a>
+
+    {{ include('grade/_delete_form.html.twig') }}
+{% endblock %}

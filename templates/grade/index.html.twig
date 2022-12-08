@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Grade index{% endblock %}
+
+{% block body %}
+    <h1>Grade index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Shortname</th>
+                <th>Level</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for grade in grades %}
+            <tr>
+                <td>{{ grade.id }}</td>
+                <td>{{ grade.shortname }}</td>
+                <td>{{ grade.level }}</td>
+                <td>
+                    <a href="{{ path('app_grade_show', {'id': grade.id}) }}">show</a>
+                    <a href="{{ path('app_grade_edit', {'id': grade.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_grade_new') }}">Create new</a>
+{% endblock %}

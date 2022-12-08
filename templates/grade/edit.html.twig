@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Grade{% endblock %}
+
+{% block body %}
+    <h1>Edit Grade</h1>
+
+    {{ include('grade/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_grade_index') }}">back to list</a>
+
+    {{ include('grade/_delete_form.html.twig') }}
+{% endblock %}

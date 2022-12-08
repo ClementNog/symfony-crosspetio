@@ -17,10 +17,10 @@ class Student
     #[ORM\Column(length: 50, nullable: true)]
     private ?string $barcode = null;
 
-    #[ORM\Column(length: 20)]
+    #[ORM\Column(length: 50)]
     private ?string $shortname = null;
 
-    #[ORM\Column(length: 20)]
+    #[ORM\Column(length: 50)]
     private ?string $lastname = null;
 
     #[ORM\Column(nullable: true)]
