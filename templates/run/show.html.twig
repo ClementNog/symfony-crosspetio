@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Run{% endblock %}
+
+{% block body %}
+    <h1>Run</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ run.id }}</td>
+            </tr>
+            <tr>
+                <th>Start</th>
+                <td>{{ run.start ? run.start|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_run_index') }}">back to list</a>
+
+    <a href="{{ path('app_run_edit', {'id': run.id}) }}">edit</a>
+
+    {{ include('run/_delete_form.html.twig') }}
+{% endblock %}

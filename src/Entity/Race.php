@@ -48,4 +48,9 @@ class Race
 
         return $this;
     }
+    
+    public function __toString(): string
+    {
+        return "Race started at " . $this->start->format("h:m:s");
+    }
 }

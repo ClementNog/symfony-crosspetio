@@ -31,6 +31,7 @@
                 <td>
                     <a href="{{ path('app_student_show', {'id': student.id}) }}">show</a>
                     <a href="{{ path('app_student_edit', {'id': student.id}) }}">edit</a>
+                    
                 </td>
             </tr>
         {% else %}
@@ -42,4 +43,8 @@
     </table>
 
     <a href="{{ path('app_student_new') }}">Create new</a>
+    <br>
+    <a href="{{ path('app_race_index')}}">Race</a>
+    <br>
+    <a href="../">Home</a>
 {% endblock %}
