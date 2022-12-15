@@ -12,10 +12,10 @@ class Run
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    public ?int $id = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $start = null;
+    public ?\DateTimeInterface $start = null;
 
     public function getId(): ?int
     {
@@ -32,5 +32,9 @@ class Run
         $this->start = $start;
 
         return $this;
+    }
+    public function __toString(): string
+    {
+        return $this->id;
     }
 }

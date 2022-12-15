@@ -4,12 +4,13 @@ namespace App\Controller;
 
 use App\Entity\Run;
 use App\Form\RunType;
-use App\Entity\Ranking;
+use App\Entity\Student;
 use App\Repository\RunRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Validator\Constraints\Length;
 
 #[Route('/run')]
 class RunController extends AbstractController
@@ -77,16 +78,4 @@ class RunController extends AbstractController
         return $this->redirectToRoute('app_run_index', [], Response::HTTP_SEE_OTHER);
     }
     
-
-    #[Route('/{id}/compute', name: 'app_run_compute', methods: ['POST'])]
-    public function compute(Run $run, Ranking $ranking): Response
-    {
-        //$start::sub(DateInterval $interval): DateTime
-        $runningTime = $ranking->getEndrace()->diff($run->getStart());
-
-        return $this->renderForm('run/compute.html.twig', [
-            'runningTime' => $runningTime,
-        ]);
-
-    }
 }

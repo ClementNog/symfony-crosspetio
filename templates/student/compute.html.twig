@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Compute time{% endblock %}
+
+{% block body %}
+
+        {% for student in students %}
+             <tr> 
+                <td>{{ student.id }}</td>
+                <td>{{ student.barcode }}</td>
+                <td>{{ student.shortname }}</td>
+                <td>{{ student.lastname }}</td>
+                <td>{{ student.mas }}</td>
+                <td>{{ student.gender }}</td>
+                <td>{{ student.objective ? student.objective|date('H:i:s') : '' }}</td>
+                <td> {{ student.mas->runningTime }} </td>
+             </tr>
+        {% endfor %}
+
+    
+{% endblock %}

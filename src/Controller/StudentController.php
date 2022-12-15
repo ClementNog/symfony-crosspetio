@@ -3,8 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Student;
+use App\Entity\Run;
 use App\Form\StudentType;
+
 use App\Repository\StudentRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -75,4 +78,41 @@ class StudentController extends AbstractController
 
         return $this->redirectToRoute('app_student_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    #[Route('/form', name: 'app_student_form', methods: ['POST'])]
+    public function form(Run $run, Student $student, StudentRepository $studentRepository): Response
+    {$form  = $this->createFormBuilder()
+            ->add('Run', EntityType::class, [
+                'class'  => Run::class
+            ])
+            ->getForm()
+            ;
+            return $this->renderForm('app_student_index', compact('form'));
+    }
+
+    #[Route('/compute', name: 'app_student_compute', methods: ['POST'])]
+    public function compute(Run $run, Student $student, StudentRepository $studentRepository): Response
+    {
+
+        
+
+        //$start::sub(DateInterval $interval): DateTime
+        
+        $id = $_GET['id'];
+        
+        foreach($studentRepository as $key => $stud){
+            if (($stud == $id) && ($key == "endrace")){
+                $runningTime = $stud->diff($run->getStart());
+        }
+        $runningTime = "bonjour";
+        return $this->renderForm('student/compute.html.twig', [
+            'runningTime' => $runningTime,
+            'students' => $studentRepository->findAll(),
+            
+        ]);
+    }
+
+    }
+
+    
 }

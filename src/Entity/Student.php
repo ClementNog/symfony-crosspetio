@@ -36,10 +36,13 @@ class Student
     private ?Grade $grade = null;
 
     #[ORM\ManyToOne]
-    private ?Ranking $ranking = null;
+    private ?Race $race = null;
 
     #[ORM\ManyToOne]
-    private ?Race $race = null;
+    public ?Run $run = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    public ?\DateTimeInterface $endrace = null;
 
     public function getId(): ?int
     {
@@ -129,19 +132,6 @@ class Student
 
         return $this;
     }
-
-    public function getRanking(): ?Ranking
-    {
-        return $this->ranking;
-    }
-
-    public function setRanking(?Ranking $ranking): self
-    {
-        $this->ranking = $ranking;
-
-        return $this;
-    }
-
     public function getRace(): ?Race
     {
         return $this->race;
@@ -152,5 +142,33 @@ class Student
         $this->race = $race;
 
         return $this;
+    }
+
+    public function getRun(): ?Run
+    {
+        return $this->run;
+    }
+
+    public function setRun(?Run $run): self
+    {
+        $this->run = $run;
+
+        return $this;
+    }
+
+    public function getEndrace(): ?\DateTimeInterface
+    {
+        return $this->endrace;
+    }
+
+    public function setEndrace(?\DateTimeInterface $endrace): self
+    {
+        $this->endrace = $endrace;
+
+        return $this;
+    }
+    public function __toString(): string
+    {
+        return $this->endrace->format('Y-M-D h-m-s');
     }
 }

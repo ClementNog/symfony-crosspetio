@@ -5,13 +5,11 @@
 {% block body %}
     <h1>Race index</h1>
 
-    {{ message }}
 
     <table class="table">
         <thead>
             <tr>
                 <th>Id</th>
-                <th>Start</th>
                 <th>Filename</th>
                 <th>actions</th>
             </tr>
@@ -19,8 +17,6 @@
         <tbody>
         {% for race in races %}
             <tr>
-                <td>{{ race.id }}</td>
-                <td>{{ race.start ? race.start|date('H:i:s') : '' }}</td>
                 <td>{{ race.filename }}</td>
                 <td>
                     <a href="{{ path('app_race_show', {'id': race.id}) }}">show</a>
