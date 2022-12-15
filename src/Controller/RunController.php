@@ -7,6 +7,9 @@ use App\Form\RunType;
 use App\Entity\Student;
 use App\Form\RankingType;
 use App\Repository\RunRepository;
+use App\Repository\StudentRepository;
+use Date;
+use DateTime;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -16,7 +19,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/run')]
 class RunController extends AbstractController
-{
+{   
     #[Route('/', name: 'app_run_index', methods: ['GET'])]
     public function index(RunRepository $runRepository): Response
     {
@@ -25,24 +28,42 @@ class RunController extends AbstractController
         ]);
     }
 
+    #[Route('/start', name: 'app_run_start', methods: ['GET'])]
+    public function start(Request $request, RunRepository $runRepository): Response
+    {
+        date_default_timezone_set("Europe/Paris");
+        $start_string = date("Y:m:d H:i:s");
+        $run = new Run();
+        $run->setStart(new DateTime());
+        $runRepository->save($run, true);
+        
+        return $this->render('run/start.html.twig', [
+            'time' => $start_string,
+            
+        ]);
+    }
+
     #[Route('/{id}/ranking', name: 'app_run_ranking', methods: ['GET', 'POST'])]
-    public function ranking(Request $request, Run $run, RunRepository $runRepository): Response
+    public function ranking(Request $request, Run $run, Student $student,StudentRepository $studentRepository, RunRepository $runRepository): Response
     {
         $form = $this->createForm(RankingType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
             
-
-
             
+            
+
             return $this->renderForm('run/ranking-result.html.twig', [
                 'form' => $form,
+                print($this->$form->gender),
+
             ]);
         }
-
+    
         return $this->renderForm('run/ranking-form.html.twig', [
             'form' => $form,
+            
         ]);
     }
 

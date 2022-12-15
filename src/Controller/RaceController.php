@@ -164,4 +164,16 @@ class RaceController extends AbstractController
 
         return $this->redirectToRoute('app_race_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    #[Route('/start', name: 'app_race_start', methods: ['POST'])]
+    public function start(Request $request, Race $race, RaceRepository $raceRepository): Response
+    {
+        $message = "";
+
+        return $this->render('race/index.html.twig', [
+            'races' => $raceRepository->findAll(),
+            'message' => $message,
+        ]);
+    }
+    
 }
