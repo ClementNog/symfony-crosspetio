@@ -2,16 +2,17 @@
 
 namespace App\Controller;
 
-use App\Entity\Student;
 use App\Entity\Run;
+use App\Entity\Student;
 use App\Form\StudentType;
 
 use App\Repository\StudentRepository;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/student')]
 class StudentController extends AbstractController
@@ -77,17 +78,6 @@ class StudentController extends AbstractController
         }
 
         return $this->redirectToRoute('app_student_index', [], Response::HTTP_SEE_OTHER);
-    }
-
-    #[Route('/form', name: 'app_student_form', methods: ['POST'])]
-    public function form(Run $run, Student $student, StudentRepository $studentRepository): Response
-    {$form  = $this->createFormBuilder()
-            ->add('Run', EntityType::class, [
-                'class'  => Run::class
-            ])
-            ->getForm()
-            ;
-            return $this->renderForm('app_student_index', compact('form'));
     }
 
     #[Route('/compute', name: 'app_student_compute', methods: ['POST'])]

@@ -5,12 +5,14 @@ namespace App\Controller;
 use App\Entity\Run;
 use App\Form\RunType;
 use App\Entity\Student;
+use App\Form\RankingType;
 use App\Repository\RunRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/run')]
 class RunController extends AbstractController
@@ -20,6 +22,27 @@ class RunController extends AbstractController
     {
         return $this->render('run/index.html.twig', [
             'runs' => $runRepository->findAll(),
+        ]);
+    }
+
+    #[Route('/{id}/ranking', name: 'app_run_ranking', methods: ['GET', 'POST'])]
+    public function ranking(Request $request, Run $run, RunRepository $runRepository): Response
+    {
+        $form = $this->createForm(RankingType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted()) {
+            
+
+
+            
+            return $this->renderForm('run/ranking-result.html.twig', [
+                'form' => $form,
+            ]);
+        }
+
+        return $this->renderForm('run/ranking-form.html.twig', [
+            'form' => $form,
         ]);
     }
 
@@ -77,5 +100,5 @@ class RunController extends AbstractController
 
         return $this->redirectToRoute('app_run_index', [], Response::HTTP_SEE_OTHER);
     }
-    
+   
 }

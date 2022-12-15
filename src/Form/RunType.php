@@ -22,4 +22,5 @@ class RunType extends AbstractType
             'data_class' => Run::class,
         ]);
     }
+
 }
