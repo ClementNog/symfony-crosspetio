@@ -105,6 +105,7 @@ class RaceController extends AbstractController
                         $grade->setLevel($gradeLevel);
                         $gradeRepository->save($grade, true);
                     }
+        
                     $student->setGrade($grade);
 
                     $studentRepository->save($student, true);

@@ -100,9 +100,36 @@ class StudentController extends AbstractController
             'students' => $studentRepository->findAll(),
             
         ]);
+        }
     }
 
+    #[Route('/', name: 'app_student_barcode', methods: ['POST'])]
+    public function generatebarcode(Student $student, StudentRepository $studentRepository): string
+    {
+        $barcode="";
+        foreach ($studentRepository as $key => $stud ) {
+            $id = $stud->getId();
+            $gender = $stud->getGender();
+            $shortname = $stud->getshortname();
+            $lastname = $stud->getlastname;
+            if ($id < 10){
+                $barcode = $gender . "-" . $shortname[0] . "-" . $lastname[0] . "-00" . $id;
+            }
+            else if ($id <100){
+                $barcode = $gender . "-" . $shortname[0] . "-" . $lastname[0] . "-0" . $id;
+            }
+            else{
+                $barcode = $gender . "-" . $shortname[0] . "-" . $lastname[0] . "-" . $id;
+            }
+            $student->setBarcode('$barcode');
+            $student->flush();
+            return $this->renderForm('student/barcode.html.twig', [
+                'barcode' => $barcode,
+                'students' => $studentRepository->findAll(),
+                
+            ]);
+        }   
+        
     }
 
-    
 }
