@@ -25,6 +25,34 @@ class StudentController extends AbstractController
         ]);
     }
 
+    #[Route('/barcode', name: 'app_student_barcode', methods: ['GET'])]
+    public function generatebarcode(StudentRepository $studentRepository): Response
+    {
+        $barcode = "";
+        $year = substr(date('Y'), 2);
+        $students = $studentRepository->findAll();
+        foreach ($students as $student) {
+            $id = $student->getId();
+            $gender = $student->getGender();
+            $shortname = $student->getshortname();
+            $lastname = $student->getlastname();
+            if ($id < 10) {
+                $barcode = $gender . "-" . $year . "-" . $shortname[0] . $lastname[0] . "-00" . $id;
+            } else if ($id < 100) {
+                $barcode = $gender . "-" . $year . "-" . $shortname[0] . $lastname[0] . "-0" . $id;
+            } else {
+                $barcode = $gender . "-" . $year . "-" . $shortname[0] . $lastname[0] . "-" . $id;
+            }
+            $student->setBarcode($barcode);
+            $studentRepository->save($student, true);
+        }
+        return $this->renderForm('student/barcode.html.twig', [
+            'barcode' => $barcode,
+            'students' => $students,
+
+        ]);
+    }
+
     #[Route('/new', name: 'app_student_new', methods: ['GET', 'POST'])]
     public function new(Request $request, StudentRepository $studentRepository): Response
     {
@@ -73,7 +101,7 @@ class StudentController extends AbstractController
     #[Route('/{id}', name: 'app_student_delete', methods: ['POST'])]
     public function delete(Request $request, Student $student, StudentRepository $studentRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$student->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $student->getId(), $request->request->get('_token'))) {
             $studentRepository->remove($student, true);
         }
 
@@ -84,52 +112,22 @@ class StudentController extends AbstractController
     public function compute(Run $run, Student $student, StudentRepository $studentRepository): Response
     {
 
-        
+
 
         //$start::sub(DateInterval $interval): DateTime
-        
+
         $id = $_GET['id'];
-        
-        foreach($studentRepository as $key => $stud){
-            if (($stud == $id) && ($key == "endrace")){
+
+        foreach ($studentRepository as $key => $stud) {
+            if (($stud == $id) && ($key == "endrace")) {
                 $runningTime = $stud->diff($run->getStart());
-        }
-        $runningTime = "bonjour";
-        return $this->renderForm('student/compute.html.twig', [
-            'runningTime' => $runningTime,
-            'students' => $studentRepository->findAll(),
-            
-        ]);
-        }
-    }
-
-    #[Route('/', name: 'app_student_barcode', methods: ['POST'])]
-    public function generatebarcode(Student $student, StudentRepository $studentRepository): string
-    {
-        $barcode="";
-        foreach ($studentRepository as $key => $stud ) {
-            $id = $stud->getId();
-            $gender = $stud->getGender();
-            $shortname = $stud->getshortname();
-            $lastname = $stud->getlastname;
-            if ($id < 10){
-                $barcode = $gender . "-" . $shortname[0] . "-" . $lastname[0] . "-00" . $id;
             }
-            else if ($id <100){
-                $barcode = $gender . "-" . $shortname[0] . "-" . $lastname[0] . "-0" . $id;
-            }
-            else{
-                $barcode = $gender . "-" . $shortname[0] . "-" . $lastname[0] . "-" . $id;
-            }
-            $student->setBarcode('$barcode');
-            $student->flush();
-            return $this->renderForm('student/barcode.html.twig', [
-                'barcode' => $barcode,
+            $runningTime = "bonjour";
+            return $this->renderForm('student/compute.html.twig', [
+                'runningTime' => $runningTime,
                 'students' => $studentRepository->findAll(),
-                
-            ]);
-        }   
-        
-    }
 
+            ]);
+        }
+    }
 }

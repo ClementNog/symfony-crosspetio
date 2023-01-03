@@ -41,11 +41,6 @@
         {% endfor %}
         </tbody>
     </table>
-    {% form_theme data_class '../form/StudentType.php' %}
-
-    {{ form_start(form) }}
-
-    {{ form_end(form) }}
 
     <a href="{{ path('app_student_barcode') }}">Create Barcode </a>
     <br>
@@ -54,4 +49,5 @@
     <a href="{{ path('app_race_index')}}">Race</a>
     <br>
     <a href="../">Home</a>
+    
 {% endblock %}
