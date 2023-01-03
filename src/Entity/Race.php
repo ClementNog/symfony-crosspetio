@@ -14,15 +14,8 @@ class Race
     #[ORM\Column]
     private ?int $id = null;
 
-
-
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $filename = null;
-
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $start = null;
-
-
 
     public function getId(): ?int
     {
@@ -43,20 +36,6 @@ class Race
     
     public function __toString(): string
     {
-        return "Race is imported with the file named" . $this->filename;
+        return "Race started at " . $this->start->format("h:m:s");
     }
-
-    public function getStart(): ?\DateTimeInterface
-    {
-        return $this->start;
-    }
-
-    public function setStart(?\DateTimeInterface $start): self
-    {
-        $this->start = $start;
-
-        return $this;
-    }
-
-
 }
