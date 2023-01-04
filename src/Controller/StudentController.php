@@ -54,7 +54,7 @@ class StudentController extends AbstractController
 
         
     }
-    #[Route('/codebar', name: 'app_student_barcode', methods: ['GET'])]
+    #[Route('/codebar', name: 'app_student_codebar', methods: ['GET'])]
     public function generatebarcodeimg(StudentRepository $studentRepository) 
     {
 
@@ -62,10 +62,10 @@ class StudentController extends AbstractController
 $pdf = new \TCPDF;
 // set document information
 $pdf->SetCreator(PDF_CREATOR);
-$pdf->SetAuthor('Nicola Asuni');
+$pdf->SetAuthor('Nogueire Clement');
 $pdf->SetTitle('TCPDF Example 027');
-$pdf->SetSubject('TCPDF Tutorial');
-$pdf->SetKeywords('TCPDF, PDF, example, test, guide');
+$pdf->SetSubject('TCPDF');
+$pdf->SetKeywords('TCPDF, PDF, example');
 
 // set default header data
 $pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE.' 027', PDF_HEADER_STRING);
@@ -102,17 +102,8 @@ $pdf->setBarcode(date('Y-m-d H:i:s'));
 // set font
 $pdf->SetFont('helvetica', '', 11);
 
-// add a page
-$pdf->AddPage();
-
-// print a message
-$txt = "You can also export 1D barcodes in other formats (PNG, SVG, HTML). Check the examples inside the barcodes directory.\n";
-$pdf->MultiCell(70, 50, $txt, 0, 'J', false, 1, 125, 30, true, 0, false, true, 0, 'T', false);
-$pdf->SetY(30);
-
 // -----------------------------------------------------------------------------
 
-$pdf->SetFont('helvetica', '', 10);
 
 // define barcode style
 $style = array(
@@ -134,16 +125,18 @@ $style = array(
 
 // PRINT VARIOUS 1D BARCODES
 $students = $studentRepository->findAll();
-foreach ($students as $student){
+
 $pdf->AddPage();
-
+foreach ($students as $student){
 // CODE 128 AUTO
-$pdf->Cell(0, 0, 'CODE 128 AUTO', 0, 1);
-$pdf->write1DBarcode('CODE 128 AUTO', 'C128', '', '', '', 18, 0.4, $style, 'N');
+    $barcode = $student->getBarcode();
+    $pdf->Cell(0, 0, $barcode, 0, 1);
+    $pdf->write1DBarcode($barcode, 'C128', '', '', '', 18, 0.4, $style, 'N');
 
-$pdf->Ln();
-return $pdf->output('barcode.pdf');
+    $pdf->Ln();
 }
+return $pdf->output('barcode.pdf');
+
     }
     #[Route('/new', name: 'app_student_new', methods: ['GET', 'POST'])]
     public function new(Request $request, StudentRepository $studentRepository): Response
