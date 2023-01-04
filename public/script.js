@@ -27,7 +27,6 @@ button_code_bar.onclick = function(){
        pdf_box.style.display ="none";
     }
 }
-
 //generer le pdf
 function genererPDF(){
     var opt = {
@@ -35,11 +34,8 @@ function genererPDF(){
       filename:     `${text.value}.pdf`,
       image:        { type: 'jpeg', quality: 0.98 },
       html2canvas:  { scale: 2 },
-      jsPDF:        { unit: 'in', format: 'a3', orientation: 'l' }
+      jsPDF:        { unit: 'in', format: 'a8', orientation: 'l' }
     };
-    
     // New Promise-based usage:
     html2pdf().set(opt).from(box).save();
-    
-    
 }
