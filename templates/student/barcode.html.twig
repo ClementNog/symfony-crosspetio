@@ -17,5 +17,9 @@
         {% endfor %}
 </table>
 
+{% for student in students %}
+<button type="button" onclick="sendData({'{{student.barcode}}': 'ok'})">Cliquez ici !</button>
+
+
 
 {% endblock %}

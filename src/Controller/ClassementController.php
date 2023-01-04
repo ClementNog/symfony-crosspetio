@@ -10,7 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ClassementController extends AbstractController
 {
-    
+
     #[Route('/classement', name: 'app_classement')]
     public function index(): Response
     {
@@ -18,12 +18,12 @@ class ClassementController extends AbstractController
         $dbname = "crosspetio";
         $user = "root";
         $pass = "";
-        
-        $rows = array();
-        $error_message = "";        
 
-        try{
-            $connexion = new PDO("mysql:host=$serveur;port=3306;dbname=$dbname",$user,$pass);
+        $rows = array();
+        $error_message = "";
+
+        try {
+            $connexion = new PDO("mysql:host=$serveur;port=3306;dbname=$dbname", $user, $pass);
             $connexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
             $sth = $connexion->prepare("SELECT * from ranking");
@@ -34,8 +34,7 @@ class ClassementController extends AbstractController
             $rows = $sth->fetchAll();
             //dump($rows);
 
-        }
-        catch(PDOException $e){
+        } catch (PDOException $e) {
             $error_message = $e->getMessage();
         }
 
@@ -45,8 +44,8 @@ class ClassementController extends AbstractController
             'error_message' => $error_message,
             'controller_name' => "Toto",
         ]);
-        function ImportStudentCommand(){
-            
+        function ImportStudentCommand()
+        {
         }
     }
 }
