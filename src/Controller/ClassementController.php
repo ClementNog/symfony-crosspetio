@@ -17,13 +17,13 @@ class ClassementController extends AbstractController
         $serveur = "localhost";
         $dbname = "crosspetio";
         $user = "root";
-        $pass = "";
+        $pass = "root";
         
         $rows = array();
         $error_message = "";        
 
         try{
-            $connexion = new PDO("mysql:host=$serveur;port=3306;dbname=$dbname",$user,$pass);
+            $connexion = new PDO("mysql:host=$serveur;port=3307;dbname=$dbname",$user,$pass);
             $connexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
             $sth = $connexion->prepare("SELECT * from ranking");

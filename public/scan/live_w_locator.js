@@ -285,7 +285,7 @@ $(function() {
         // code = "G-22-CN-003";
         alert(code);
         let httpRequest = new XMLHttpRequest();
-        httpRequest.open('GET', 'http://172.16.126.10:8000/receptionconnec.php?code='+code);
+        httpRequest.open('GET', 'http://localhost:8000/reception.php?code='+code);
         httpRequest.send();
           
         
