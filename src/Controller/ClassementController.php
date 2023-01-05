@@ -26,7 +26,7 @@ class ClassementController extends AbstractController
             $connexion = new PDO("mysql:host=$serveur;port=3307;dbname=$dbname",$user,$pass);
             $connexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            $sth = $connexion->prepare("SELECT * from ranking");
+            $sth = $connexion->prepare("SELECT * from student, run");
             $sth->execute();
 
             /* Récupération de toutes les lignes d'un jeu de résultats */
