@@ -1,19 +1,17 @@
 {% extends 'base.html.twig' %}
-
 {% block title %}Compute time{% endblock %}
-
 {% block body %}
-
+<table>
         {% for student in students %}
-             <tr> 
+        <tr>
                 <td>{{ student.id }}</td>
                 <td>{{ student.barcode }}</td>
                 <td>{{ student.shortname }}</td>
                 <td>{{ student.lastname }}</td>
                 <td>{{ student.mas }}</td>
                 <td>{{ student.gender }}</td>
-             </tr>
+        </tr>
         {% endfor %}
-
-    
+</table>
+<a href="{{ path('app_student_codebar') }}">barcode</a>
 {% endblock %}
