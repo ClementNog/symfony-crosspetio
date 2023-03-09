@@ -9,23 +9,26 @@
     .example-wrapper {border: #cc139b 5px solid;}
 </style>
 
+
+<p class="text-danger">{{ error_message }}</p>
+
 <div class="example-wrapper">
     <h1>Classement</h1>
 
    
-    <table border="1">
+    <table border="1"> 
     <tr>
     <th>Elève</th>
     <th>Heure d'arrivée</th>
     </tr>
-        {% for row in rows %}            
+        {% for student in students | sortbyfield({{ student.endRace }}) %}            
             <tr>
-                <td>{{ row.id }}</td>
-                <td>{{ row.endrace }}</td>                
+                <td>{{ student.id }}</td>
+                <td>{{ student.endrace }}</td>                          
+            
             </tr>
         {% endfor %}
 
-        {{ error_message }}
     </table>   
     
 
