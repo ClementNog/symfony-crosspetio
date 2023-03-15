@@ -36,7 +36,7 @@ class RunController extends AbstractController
         $run = new Run();
         $run->setStart(new DateTime());
         $runRepository->save($run, true);
-        
+            return $this->redirectToRoute('app_run_index', [], Response::HTTP_SEE_OTHER);
         return $this->render('run/start.html.twig', [
             'time' => $start_string,
             
