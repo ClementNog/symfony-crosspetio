@@ -6,6 +6,7 @@ use App\Entity\Run;
 use App\Entity\Student;
 use App\Form\StudentType;
 
+use Picqer\Barcode\BarcodeGenerator;
 use App\Repository\StudentRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,6 +24,36 @@ class StudentController extends AbstractController
         return $this->render('student/index.html.twig', [
             'students' => $studentRepository->findAll(),
         ]);
+    }
+    #[Route('/codebar', name: 'app_student_barcode', methods: ['GET', 'POST'])]
+    public function generatebarcode(Student $student, StudentRepository $studentRepository): string
+    {
+        $barcode="";
+        foreach ($studentRepository->findall() as $key => $stud ) {
+            $id = $stud->getId();
+            $gender = $stud->getGender();
+            $shortname = $stud->getshortname();
+            $lastname = $stud->getlastname();
+            if ($id < 10){
+                $barcode = $gender . "-" . $shortname[0] . "-" . $lastname[0] . "-00" . $id;
+            }
+            else if ($id <100){
+                $barcode = $gender . "-" . $shortname[0] . "-" . $lastname[0] . "-0" . $id;
+            }
+            else{
+                $barcode = $gender . "-" . $shortname[0] . "-" . $lastname[0] . "-" . $id;
+            }
+            $student->setBarcode($barcode);
+            $this->getDoctrine()->getManager()->flush();
+            dump($barcode);
+           
+                
+            
+        }   
+         return $this->renderForm('student/index.html.twig', [
+                'barcode' => $barcode,
+                'students' => $studentRepository->findAll(),
+            ]);
     }
 
     #[Route('/new', name: 'app_student_new', methods: ['GET', 'POST'])]
@@ -103,33 +134,6 @@ class StudentController extends AbstractController
         }
     }
 
-    #[Route('/', name: 'app_student_barcode', methods: ['POST'])]
-    public function generatebarcode(Student $student, StudentRepository $studentRepository): string
-    {
-        $barcode="";
-        foreach ($studentRepository as $key => $stud ) {
-            $id = $stud->getId();
-            $gender = $stud->getGender();
-            $shortname = $stud->getshortname();
-            $lastname = $stud->getlastname;
-            if ($id < 10){
-                $barcode = $gender . "-" . $shortname[0] . "-" . $lastname[0] . "-00" . $id;
-            }
-            else if ($id <100){
-                $barcode = $gender . "-" . $shortname[0] . "-" . $lastname[0] . "-0" . $id;
-            }
-            else{
-                $barcode = $gender . "-" . $shortname[0] . "-" . $lastname[0] . "-" . $id;
-            }
-            $student->setBarcode('$barcode');
-            $student->flush();
-            return $this->renderForm('student/barcode.html.twig', [
-                'barcode' => $barcode,
-                'students' => $studentRepository->findAll(),
-                
-            ]);
-        }   
-        
-    }
+
 
 }
