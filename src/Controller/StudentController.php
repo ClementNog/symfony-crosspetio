@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\Run;
 use App\Entity\Student;
 use App\Form\StudentType;
-
 use Picqer\Barcode\BarcodeGenerator;
 use App\Repository\StudentRepository;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,6 +13,9 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Doctrine\ORM\EntityManagerInterface;
+
+
 
 #[Route('/student')]
 class StudentController extends AbstractController
@@ -21,15 +23,19 @@ class StudentController extends AbstractController
     #[Route('/', name: 'app_student_index', methods: ['GET'])]
     public function index(StudentRepository $studentRepository): Response
     {
+        
         return $this->render('student/index.html.twig', [
             'students' => $studentRepository->findAll(),
         ]);
     }
     #[Route('/codebar', name: 'app_student_barcode', methods: ['GET', 'POST'])]
-    public function generatebarcode(Student $student, StudentRepository $studentRepository): string
+    public function generatebarcode(StudentRepository $studentRepository, EntityManagerInterface $entityManager)
     {
         $barcode="";
-        foreach ($studentRepository->findall() as $key => $stud ) {
+
+        $user = $studentRepository->findAll();
+        dump($user);
+        foreach ($studentRepository->findAll() as $key => $stud ) {
             $id = $stud->getId();
             $gender = $stud->getGender();
             $shortname = $stud->getshortname();
@@ -43,15 +49,16 @@ class StudentController extends AbstractController
             else{
                 $barcode = $gender . "-" . $shortname[0] . "-" . $lastname[0] . "-" . $id;
             }
-            $student->setBarcode($barcode);
-            $this->getDoctrine()->getManager()->flush();
-            dump($barcode);
-           
-                
+            $stud->setBarcode($barcode);
+            $test = $studentRepository->save($stud);
+
+
+
+
+            
             
         }   
          return $this->renderForm('student/index.html.twig', [
-                'barcode' => $barcode,
                 'students' => $studentRepository->findAll(),
             ]);
     }
@@ -59,14 +66,15 @@ class StudentController extends AbstractController
     #[Route('/new', name: 'app_student_new', methods: ['GET', 'POST'])]
     public function new(Request $request, StudentRepository $studentRepository): Response
     {
+        
         $student = new Student();
         $form = $this->createForm(StudentType::class, $student);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $studentRepository->save($student, true);
-
-            return $this->redirectToRoute('app_student_index', [], Response::HTTP_SEE_OTHER);
+            dump($student);
+            // return $this->redirectToRoute('app_student_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('student/new.html.twig', [

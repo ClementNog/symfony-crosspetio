@@ -19,7 +19,6 @@ class StudentType extends AbstractType
             ->add('gender')
             ->add('objective')
             ->add('grade')
-            ->add('ranking')
             ->add('race')
         ;
     }

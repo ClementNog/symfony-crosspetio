@@ -110,7 +110,7 @@ class RunController extends AbstractController
             'run' => $run,
             'form' => $form,
         ]);
-    }
+    }  
 
     #[Route('/{id}', name: 'app_run_delete', methods: ['POST'])]
     public function delete(Request $request, Run $run, RunRepository $runRepository): Response
