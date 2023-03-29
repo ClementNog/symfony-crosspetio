@@ -44,19 +44,67 @@ class RunController extends AbstractController
     }
 
     #[Route('/{id}/ranking', name: 'app_run_ranking', methods: ['GET', 'POST'])]
-    public function ranking(Request $request, Run $run, Student $student,StudentRepository $studentRepository, RunRepository $runRepository): Response
+    public function ranking(Request $request, Run $run,StudentRepository $studentRepository, RunRepository $runRepository): Response
     {
         $form = $this->createForm(RankingType::class);
         $form->handleRequest($request);
+        $list = array();
+        if ($form->isSubmitted() && $form->isValid()) {
+            $grade = $form->get('grade')->getData();
+            $gender = $form->get('gender');
+            $level = $form->get('level')->getData();
+            if ($grade->getShortname() == '0 Null' && $level != null){
+                
+                // il faut rajouter les if et les conditions pour séparer les filles des garçons
+                foreach($studentRepository->findAll() as $students){
+                    $studlevel = $students->getGrade()->getLevel();
+                    if( $studlevel == $level){
+                        
+                        array_push($list, $students);
+                        
+                    }
+                }
+                dump($list);
+                return $this->render('run/ranking-result.html.twig', [
+                    'list' => $list,
+                    'level' => $level,
+                ]);
+                
 
-        if ($form->isSubmitted()) {
-            
-            
-            
+            }
+            else if ($grade->getShortname() == '0 Null' && $level == null){
+                
+                
+                foreach($studentRepository->findAll() as $students){                        
+                    array_push($list, $students);
+                }
+                return $this->render('run/ranking-result.html.twig', [
+                    'list' => $list,
+                    'level' => null,
+                ]);
+            }
+
+            foreach($studentRepository->findAll() as $students){
+                $studgrade = $students->getGrade();
+                $studgrade = $studgrade->getId();
+                
+                if($studgrade == $grade->getId())
+                    array_push($list, $students);
+                    
+            }
+            dump($list);
+            $grade = $grade->getId();
+            return $this->render('run/ranking-result.html.twig', [
+                'list' => $list,
+                'level' => $grade
+
+            ]);
+                  
+            dump($grade);
+            dump($gender);
 
             return $this->renderForm('run/ranking-result.html.twig', [
                 'form' => $form,
-                print($this->$form->gender),
 
             ]);
         }

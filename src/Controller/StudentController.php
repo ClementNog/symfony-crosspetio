@@ -34,12 +34,11 @@ class StudentController extends AbstractController
         $barcode="";
 
         $user = $studentRepository->findAll();
-        dump($user);
         foreach ($studentRepository->findAll() as $key => $stud ) {
             $id = $stud->getId();
             $gender = $stud->getGender();
-            $shortname = $stud->getshortname();
-            $lastname = $stud->getlastname();
+            $shortname = $stud->getShortname();
+            $lastname = $stud->getLastname();
             if ($id < 10){
                 $barcode = $gender . "-" . $shortname[0] . "-" . $lastname[0] . "-00" . $id;
             }
@@ -50,7 +49,7 @@ class StudentController extends AbstractController
                 $barcode = $gender . "-" . $shortname[0] . "-" . $lastname[0] . "-" . $id;
             }
             $stud->setBarcode($barcode);
-            $test = $studentRepository->save($stud);
+            $test = $studentRepository->save($stud, true);
 
 
 
